@@ -219,7 +219,7 @@ class: middle
 ---
 class: middle
 ## Catmandu @ Koha
-![Koha](./img/kohaorg.png "Koha")
+![Koha](./img/koha.png "Koha")
 
 ---
 class: middle
@@ -300,7 +300,8 @@ class: middle
   "forename" : "Larry",
   "describedBy" : {
     "valid" : "2016-04-14T11:19:01+0200",
-    "license" : "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    "license" : "http://creativecommons.org/publicdomain/zero/1.0/↩
+        legalcode",
     "id" : "http://hub.culturegraph.org/entityfacts/138937079"
   },
   "dateOfBirth" : "1954",
@@ -313,8 +314,8 @@ class: middle
         Larry_Wall_YAPC_2007.jpg",
     "thumbnail" : "https://commons.wikimedia.org/wiki/Special:FilePath/↩
         Larry_Wall_YAPC_2007.jpg?width=270",
-    "url" : "https://commons.wikimedia.org/wiki/File:Larry_Wall_YAPC_2007.↩
-        jpg?uselang=de"
+    "url" : "https://commons.wikimedia.org/wiki/File:Larry_Wall_YAPC_↩
+        2007.jpg?uselang=de"
   }
 }
 ```
@@ -587,7 +588,7 @@ end
 ```perl
 do maybe()
   download_from_internet() 
-  process_results() # <--- this is skipped when download_from_internet fails
+  process_results() # this is skipped when download_from_internet fails
 end
 ```
 
@@ -615,7 +616,7 @@ $ catmandu
      count: count the number of objects in a store
       data: store, index, search, import, export or convert (deprecated)
     delete: delete objects from a store
-      drop: drop a store or one of it's bags
+      drop: drop a store or one of the bags
     export: export objects from a store
     import: import objects into a store
       info: list installed Catmandu modules
@@ -630,7 +631,7 @@ class: middle
 ```terminal
 $ catmandu convert CSV to JSON < eu_elections_2014.csv 
 
-$ catmandu convert MARC to CSV --fix marc.fix --file journals.csv↩
+$ catmandu convert MARC to CSV --fix marc.fix --file journals.csv ↩
     --fields dc_identifier,dc_title,dc_language < journals.mrc
 
 $ catmandu convert XLSX to Template --template journals.tt < journals.xlsx
@@ -641,11 +642,14 @@ class: middle
 ## CLI - import
 
 ```terminal
-$ catmandu import JSON to MongoDB --database_name journals < journals.json
+$ catmandu import JSON to MongoDB --database_name journals ↩
+    < journals.json
 
-$ catmandu import XLSX to Elasticsearch --index_name journals < journals.xlsx
+$ catmandu import XLSX to Elasticsearch --index_name journals ↩
+    < journals.xlsx
 
-$ catmandu import PICA to CouchDB --fix pica.fix --index_name mab < pica.dat
+$ catmandu import PICA to CouchDB --fix pica.fix --index_name mab ↩
+    < pica.dat
 
 ```
 
@@ -669,7 +673,8 @@ class: middle
 ```terminal
 $ catmandu count MongoDB --database_name journals
 
-$ catmandu count Elasticsearch --index_name journals --query 'city:"Berlin"'
+$ catmandu count Elasticsearch --index_name journals --query ↩
+    'city:"Berlin"'
 ```
 
 ---
@@ -679,7 +684,8 @@ class: middle
 ```terminal
 $ catmandu delete MongoDB --database_name journals
 
-$ catmandu delete Elasticsearch --index_name journals --query 'city:"Berlin"'
+$ catmandu delete Elasticsearch --index_name journals --query ↩
+    'city:"Berlin"'
 ```
 
 ---
@@ -687,10 +693,10 @@ class: middle
 ## CLI - copy()
 
 ```terminal
-$ catmandu move MongoDB --database_name journals to ElasticSearch↩
+$ catmandu copy MongoDB --database_name journals to ElasticSearch ↩
     --index_name journals
 
-$ catmandu delete ElasticSearch --index_name journals↩
+$ catmandu copy ElasticSearch --index_name journals ↩
     --query 'city:"Berlin"' to MongoDB --database_name berlin
 ```
 
@@ -703,16 +709,16 @@ $ catmandu convert Atom --url http://my.example.org/feed.atom to YAML
 
 $ catmandu convert OAI --url http://pub.uni-bielefeld.de/oai to JSON
 
-$ catmandu convert SRU --base http://sru.gbv.de/gvk --recordSchema marcxml↩
-    --parser marcxml --query "issn=0939-4362" to YAML    
+$ catmandu convert SRU --base http://sru.gbv.de/gvk --recordSchema ↩ 
+    marcxml --parser marcxml --query "issn=0939-4362" to YAML    
 
-$ catmandu import getJSON --from http://example.org/alice.json to MongoDB↩
-    --database_name import --fix import.fix
+$ catmandu import getJSON --from http://example.org/alice.json to ↩
+    MongoDB --database_name import --fix import.fix
 
-$ catmandu convert RDF --url http://data.linkeddatafragments.org/viaf↩
+$ catmandu convert RDF --url http://data.linkeddatafragments.org/viaf ↩
     --sparql 'SELECT * {?s ?p "Wall, Larry"}' to JSON
 
-? catmandu convert Wikidata --site enwiki --title "Emma Goldman" to↩
+$ catmandu convert Wikidata --site enwiki --title "Larry Wall" to↩
     JSON --pretty 1
 
 ```

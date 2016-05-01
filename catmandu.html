@@ -6,7 +6,7 @@
     <meta name="keywords" content="Perl, Catmandu, ETL, data, toolkit, CSV, csvconf" />
     <meta name="description" content="Catmandu - a data toolkit" />
     <title>Catmandu - a data toolkit</title>
-    <script src="./js/remark-0.6.0.min.js" type="text/javascript"></script>
+    <script src="./js/remark.min.js" type="text/javascript"></script>
     <style type="text/css">
       @font-face {
         font-family: 'Droid Serif';
@@ -19,6 +19,12 @@
         font-style: normal;
         font-weight: normal;
         src: local('Yanone Kaffeesatz'), url(./fonts/Yanone_Kaffeesatz.woff) format('woff');
+      }
+      @font-face {
+        font-family: 'Ubuntu Mono';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Ubuntu Mono'), url(./fonts/Ubuntu_Mono.woff2) format('woff2');
       }
       body {
         font-family: 'Droid Serif';
@@ -56,6 +62,7 @@
         border-radius: 5px;
         font-size: 16px;
       }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
       .pull-left {
         float: left;
         width: 47%;
@@ -235,59 +242,26 @@ class: middle
 class: middle
 ## Tools
 
-- Command line tool: catmandu
-- Importers: Text, JSON, YAML, CSV, TSV, RDF, OAI-PMH, SRU, Z3950, DBI, LDAP, MARC, RIS, Twitter, Wikidata, XLS(X), ...
-- Exporters: Text, JSON, YAML, CSV, TSV, RDF, MARC, RIS, Template, XLS(X), XML, ...
-- Stores: MongoDB, CouchDB, ElasticSearch, Solr, DBI, FedoraCommons, Aleph, ...
-- Transformation: Fix or any program that can read and write JSON
-- API: Perl
-- Web development: PSGI, Dancer
-
----
-class: middle
-
-## Catmandu command line tool
-
-```terminal
-$ catmandu <COMMAND> <--OPTIONS>
-```
-
-```terminal
-$ catmandu help
-```
-
-```terminal
-$ catmandu convert <IMPORTER> to <EXPORTER> < file.yaml
-```
-
-```terminal
-$ catmandu convert YAML to JSON < file.yaml
-```
-
-```terminal
-$ catmandu convert YAML to JSON --pretty 1 < file.yaml
-```
-
-```terminal
-$ catmandu convert CSV --sep_char ';' to JSON < file.csv
-```
-
-```terminal
-$ catmandu convert YAML to CSV --fix 'retain(title)' < file.yaml
-```
+- __Command line tool__: catmandu
+- __Importers__: Text, JSON, YAML, CSV, TSV, RDF, OAI-PMH, SRU, Z39.50, DBI, LDAP, MARC, RIS, Twitter, Wikidata, XLS(X), ...
+- __Exporters__: Text, JSON, YAML, CSV, TSV, RDF, MARC, RIS, Template, XLS(X), XML, ...
+- __Stores__: MongoDB, CouchDB, Elasticsearch, Solr, DBI, FedoraCommons, Aleph, ...
+- __Transformation__: Fix or any program that can read and write JSON
+- __API__: Perl
+- __Web development__: PSGI, Dancer
 
 ---
 class: middle
 ## Fix
 
-... a small domain specific language (DSL) for manipulation of data
+... a small __domain specific language__ (DSL) for manipulation of data
 
 ... consists:
 
-* paths to refer to particular parts of an item
-* functions to manipulate (parts of) an item
-* conditionals to control when to apply which fix functions
-* binds to manipulate the execution of fix functions
+* __paths__ to refer to particular parts of an item
+* __functions__ to manipulate (parts of) an item
+* __conditionals__ to control when to apply which fix functions
+* __binds__ to manipulate the execution of fix functions
 
 ---
 class: middle
@@ -300,8 +274,7 @@ class: middle
   "forename" : "Larry",
   "describedBy" : {
     "valid" : "2016-04-14T11:19:01+0200",
-    "license" : "http://creativecommons.org/publicdomain/zero/1.0/↩
-        legalcode",
+    "license" : "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
     "id" : "http://hub.culturegraph.org/entityfacts/138937079"
   },
   "dateOfBirth" : "1954",
@@ -310,12 +283,9 @@ class: middle
     "value" : "Informatiker"
   } ],
   "depiction" : {
-    "image" : "https://commons.wikimedia.org/wiki/Special:FilePath/↩
-        Larry_Wall_YAPC_2007.jpg",
-    "thumbnail" : "https://commons.wikimedia.org/wiki/Special:FilePath/↩
-        Larry_Wall_YAPC_2007.jpg?width=270",
-    "url" : "https://commons.wikimedia.org/wiki/File:Larry_Wall_YAPC_↩
-        2007.jpg?uselang=de"
+    "image" : "https://commons.wikimedia.org/wiki/Special:FilePath/...",
+    "thumbnail" : "https://commons.wikimedia.org/wiki/Special:FilePath/...",
+    "url" : "https://commons.wikimedia.org/wiki/..."
   }
 }
 ```
@@ -328,7 +298,8 @@ class: middle
 
 ... uses "dot notation"
 
-```
+
+```json
 surname → "Wall"
 describedBy.id → "http://d-nb.info/gnd/4139395-8"
 professionOrOccupation.0.value → "Informatiker"
@@ -340,7 +311,7 @@ class: middle
 
 ... to add data to deep nested data structures
 
-```
+```perl
 add_field(foo.bar.0.test.1.key,value)
 ```
 
@@ -362,7 +333,7 @@ add_field(foo.bar.0.test.1.key,value)
 class: middle
 ## Paths
 
-```
+```bash
 $append   - Add a new item at the end of an array
 $prepend  - Add a new item at the start of an array
 $first    - Syntactic sugar for index '0' (the head of the array)
@@ -385,25 +356,27 @@ class: middle
 
 ```perl
 # {}
-add_field(name,'Christiansen, Tom');
+add_field(name,'Christiansen, Tom')
 # { "name" : "Christiansen, Tom" }
-set_field(name,'Wall, Larry');
+set_field(name,'Wall, Larry')
 # { "name" : "Wall, Larry" }
-copy_field(name,dc.creator);
+copy_field(name,dc.creator)
 # { "name" : "Wall, Larry", "dc" : { "creator" : "Wall, Larry" } }
-remove_field(name);
+remove_field(name)
 # { "dc" : { "creator" : "Wall, Larry" } }
-move_field(dc.creator,dc_creator);
+move_field(dc.creator,dc_creator)
 # { "dc" : {}, "dc_creator" : "Wall, Larry" }
 retain_field(dc_creator)
 # { "dc_creator" : "Wall, Larry" }
+```
 
+```perl
 # { "subjects" : "Perl,R,JavaScript,Perl,R" }
-split_field(subjects,',');
-sort_field(subjects);
+split_field(subjects,',')
+sort_field(subjects)
 uniq(subjects)
 # { "subjects" : ["JavaScript", "Perl", "R"] }
-join_field(subjects,'; ');
+join_field(subjects,'; ')
 # { "subjects" : "JavasSript; Perl; R" }
 ```
 
@@ -441,11 +414,11 @@ substring(name, 0, 1);
 
 ```perl
 # { "format" : "MARC21"}
-replace_all(format, '\d', '');
+replace_all(format, '\d', '')
 # { "format" : "MARC"}    
 
 # { "id" : [ "123-4", "567-X" ] }
-replace_all(id.*, '-[0-9xX]$', '');
+replace_all(id.*, '-[0-9xX]$', '')
 # { "id" : [ "123", "567" ] }
 ```
 
@@ -455,14 +428,14 @@ class: middle
 
 ```perl
 # { "numbers" : [ 1, 2, 3 ] }
-copy_field(numbers,count);
-count(count);
-copy_field(numbers,sum);
-sum(sum);
-copy_field(numbers,mean);
-stat_mean(mean);
-copy_field(numbers,variance);
-stat_variance(variance);
+copy_field(numbers,count)
+count(count)
+copy_field(numbers,sum)
+sum(sum)
+copy_field(numbers,mean)
+stat_mean(mean)
+copy_field(numbers,variance)
+stat_variance(variance)
 # { "numbers" : [ 1, 2, 3 ], "count" : 3, "sum" : 6,
 # "mean" : 2, "variance" : 0.67 }
 
@@ -473,16 +446,16 @@ class: middle
 ## Fix functions - special data formats
 
 ```perl
-marc_map(008_/35-38,language);
-marc_map(245[10]a,title);
+marc_map(008_/35-38,language)
+marc_map(245[10]a,title)
 ```
 ```perl
-mab_map(331[ ],title);
-mab_map(406jk,coverage.$append, -join => ' - ');
+mab_map(331[ ],title)
+mab_map(406jk,coverage.$append, -join => ' - ')
 ```
 ```perl
-pica_map(009Qa,primaryTopicOf.$append);
-pica_map(027A[01]a','varyingFormOfTitle);
+pica_map(009Qa,primaryTopicOf.$append)
+pica_map(027A[01]a','varyingFormOfTitle)
 ```
 
 ---
@@ -506,19 +479,20 @@ uuid(id)
 ---
 class: middle
 ## Fix functions - dictionaries
-```terminal
+```bash
 $ cat dict.csv
 004,Informatik
 310,Statistik
 510,Mathematik
 ```
+
 ```perl
 # { ddc => '004' }
-lookup('ddc', 'dict.csv', -default=>'Allgemeines');
-lookup('ddc', 'dict.csv', -delete=>'1');
+lookup('ddc', 'dict.csv', -default=>'Allgemeines')
+lookup('ddc', 'dict.csv', -delete=>'1')
 # { ddc => 'Informatik' }
 
-lookup_in_store('ddc', 'MongoDB', -database_name => 'lookups');
+lookup_in_store('ddc', 'MongoDB', -database_name => 'lookups')
 ```
 
 ---
@@ -588,7 +562,7 @@ end
 ```perl
 do maybe()
   download_from_internet() 
-  process_results() # this is skipped when download_from_internet fails
+  process_results() # skipped when download_from_internet fails
 end
 ```
 
@@ -600,12 +574,11 @@ do importer(OAI,url: "http://lib.ugent.be/oai")
 end
 ```
 
-
 ---
 class: middle
 ## CLI 
 
-```terminal
+```bash
 $ catmandu
   commands: list the application's commands
       help: show help
@@ -628,8 +601,9 @@ $ catmandu
 class: middle
 ## CLI - convert
 
-```terminal
-$ catmandu convert CSV to JSON < eu_elections_2014.csv 
+```bash
+$ catmandu convert CSV --sep_char ';' to JSON --pretty 1 ↩
+    < eu_elections_2014.csv 
 
 $ catmandu convert MARC to CSV --fix marc.fix --file journals.csv ↩
     --fields dc_identifier,dc_title,dc_language < journals.mrc
@@ -641,11 +615,11 @@ $ catmandu convert XLSX to Template --template journals.tt < journals.xlsx
 class: middle
 ## CLI - import
 
-```terminal
+```bash
 $ catmandu import JSON to MongoDB --database_name journals ↩
     < journals.json
 
-$ catmandu import XLSX to Elasticsearch --index_name journals ↩
+$ catmandu import XLSX to ElasticSearch --index_name journals ↩
     < journals.xlsx
 
 $ catmandu import PICA to CouchDB --fix pica.fix --index_name mab ↩
@@ -657,7 +631,7 @@ $ catmandu import PICA to CouchDB --fix pica.fix --index_name mab ↩
 class: middle
 ## CLI - export()
 
-```terminal
+```bash
 $ catmandu export MongoDB --database_name journals to JSON
 
 $ catmandu export CouchDB to CSV --fix export.fix 
@@ -670,7 +644,7 @@ $ catmandu export ElasticSearch --index_name mab --query 'city:"Berlin"'
 class: middle
 ## CLI - count()
 
-```terminal
+```bash
 $ catmandu count MongoDB --database_name journals
 
 $ catmandu count Elasticsearch --index_name journals --query ↩
@@ -681,7 +655,7 @@ $ catmandu count Elasticsearch --index_name journals --query ↩
 class: middle
 ## CLI - delete()
 
-```terminal
+```bash
 $ catmandu delete MongoDB --database_name journals
 
 $ catmandu delete Elasticsearch --index_name journals --query ↩
@@ -692,7 +666,7 @@ $ catmandu delete Elasticsearch --index_name journals --query ↩
 class: middle
 ## CLI - copy()
 
-```terminal
+```bash
 $ catmandu copy MongoDB --database_name journals to ElasticSearch ↩
     --index_name journals
 
@@ -704,7 +678,7 @@ $ catmandu copy ElasticSearch --index_name journals ↩
 class: middle
 ## CLI - APIs
 
-```terminal
+```bash
 $ catmandu convert Atom --url http://my.example.org/feed.atom to YAML
 
 $ catmandu convert OAI --url http://pub.uni-bielefeld.de/oai to JSON
@@ -727,7 +701,7 @@ $ catmandu convert Wikidata --site enwiki --title "Larry Wall" to↩
 class: middle
 ## Config
 
-```terminal
+```bash
 $ cat catmandu.yml
 ---
 store:

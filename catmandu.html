@@ -256,7 +256,7 @@ class: middle
 
 ... a small __domain specific language__ (DSL) for manipulation of data
 
-... consists:
+... consists of:
 
 * __paths__ to refer to particular parts of an item
 * __functions__ to manipulate (parts of) an item
@@ -296,7 +296,7 @@ class: middle
 
 ... to reference data within deep nested data structures
 
-... uses "dot notation"
+... uses "__dot notation__"
 
 
 ```json
@@ -386,15 +386,15 @@ class: middle
 
 ```perl
 # { "name" : "Wall" }
-upcase('name');
+upcase(name);
 # { "name" : "WALL" }
-downcase('name');
+downcase(name);
 # { "name" : "wall" }
-capitalize('name');
+capitalize(name);
 # { "name" : "Wall" }
-append('name',', Larry');
+append(name,', Larry');
 # { "name" : "Wall, Larry" }
-prepend('name',', Dr. ');
+prepend(name,', Dr. ');
 # { "name" : "Dr. Wall, Larry" }
 ```
 
@@ -489,9 +489,11 @@ $ cat dict.csv
 ```perl
 # { ddc => '004' }
 lookup('ddc', 'dict.csv', -default=>'Allgemeines')
+# or
 lookup('ddc', 'dict.csv', -delete=>'1')
 # { ddc => 'Informatik' }
 
+# large dictionaries in 
 lookup_in_store('ddc', 'MongoDB', -database_name => 'lookups')
 ```
 

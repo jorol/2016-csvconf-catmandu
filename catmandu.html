@@ -209,46 +209,21 @@ class: middle
 class: middle
 ## Catmandu
 
-... supports "Extract, Transform, Load" (ETL) processes
+... supports __"Extract, Transform, Load"__ (ETL) processes
 
 ... to *extract* metadata records from various sources, *transform* them into new formats and *load* them into databases, nosql stores or search engines
-
----
-class: middle
-## Catmandu @ Bielefeld
-![Bielefeld](./img/pubbielefeld.png "Bielefeld")
-
----
-class: middle
-## Catmandu @ Gent
-![Gent](./img/libugentbe.png "Gent")
-
----
-class: middle
-## Catmandu @ Koha
-![Koha](./img/koha.png "Koha")
-
----
-class: middle
-## Catmandu @ LinkedDataFragments
-![linked data fragments](./img/linkeddatafragmentsorg.png)
-
----
-class: middle
-## Catmandu @ OpenRefine
-![openrefine](./img/openrefine.png)
 
 ---
 class: middle
 ## Tools
 
 - __Command line tool__: catmandu
-- __Importers__: Text, JSON, YAML, CSV, TSV, RDF, OAI-PMH, SRU, Z39.50, DBI, LDAP, MARC, RIS, Twitter, Wikidata, XLS(X), ...
-- __Exporters__: Text, JSON, YAML, CSV, TSV, RDF, MARC, RIS, Template, XLS(X), XML, ...
-- __Stores__: MongoDB, CouchDB, Elasticsearch, Solr, DBI, FedoraCommons, Aleph, ...
+- __Importers__: CSV, DBI, JSON, LDAP, MAB2, MARC, OAI-PMH, PICA, RDF, RIS, SRU, Text, TSV, Twitter, Wikidata, XLS(X), YAML, Z39.50, ...
+- __Exporters__: CSV, JSON, MAB2, MARC, PICA, RDF, RIS, Template, Text, TSV, XLS(X), XML, YAML, ...
+- __Stores__:  Aleph, CouchDB, DBI, Elasticsearch, FedoraCommons, MongoDB, Solr, ...
 - __Transformation__: Fix or any program that can read and write JSON
 - __API__: Perl
-- __Web development__: PSGI, Dancer
+- __Web development__: Dancer, PSGI
 
 ---
 class: middle
@@ -631,7 +606,7 @@ $ catmandu import PICA to CouchDB --fix pica.fix --index_name mab ↩
 
 ---
 class: middle
-## CLI - export()
+## CLI - export
 
 ```bash
 $ catmandu export MongoDB --database_name journals to JSON
@@ -644,7 +619,7 @@ $ catmandu export ElasticSearch --index_name mab --query 'city:"Berlin"'
 
 ---
 class: middle
-## CLI - count()
+## CLI - count
 
 ```bash
 $ catmandu count MongoDB --database_name journals
@@ -655,7 +630,7 @@ $ catmandu count Elasticsearch --index_name journals --query ↩
 
 ---
 class: middle
-## CLI - delete()
+## CLI - delete
 
 ```bash
 $ catmandu delete MongoDB --database_name journals
@@ -666,7 +641,7 @@ $ catmandu delete Elasticsearch --index_name journals --query ↩
 
 ---
 class: middle
-## CLI - copy()
+## CLI - copy
 
 ```bash
 $ catmandu copy MongoDB --database_name journals to ElasticSearch ↩
@@ -734,6 +709,31 @@ class: middle
 * commands
 * importer & exporters
 * ...
+
+---
+class: middle
+## Catmandu @ Bielefeld
+![Bielefeld](./img/pubbielefeld.png "Bielefeld")
+
+---
+class: middle
+## Catmandu @ Gent
+![Gent](./img/libugentbe.png "Gent")
+
+---
+class: middle
+## Catmandu @ Koha
+![Koha](./img/koha.png "Koha")
+
+---
+class: middle
+## Catmandu @ LinkedDataFragments
+![linked data fragments](./img/linkeddatafragmentsorg.png)
+
+---
+class: middle
+## Catmandu @ OpenRefine
+![openrefine](./img/openrefine.png)
 
 ---
 class: middle
